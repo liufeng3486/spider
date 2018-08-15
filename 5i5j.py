@@ -100,10 +100,11 @@ def getMessage(url,poxy=False):
         return False
 
 if __name__=='__main__':
-    # for i in range(2,15):
-    #     print i
-    #     time.sleep(2)
-    #     writeList(returnFangList(i))
+    start = time.time()
+    for i in range(1,4):
+        print i
+        time.sleep(2)
+        writeList(returnFangList(i))
 
 
     failse = 0
@@ -120,9 +121,11 @@ if __name__=='__main__':
         writeSet(url)
         if failse > 5:
             failse = 0
-            print "init"
-            time.sleep(3600)
+            break
         print "failse:", failse, "  succ:", succ
         time.sleep(60)
+
+        if time.time()-start> 3400:
+            break
 
 

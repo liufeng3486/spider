@@ -94,6 +94,13 @@ def getMessage(url,poxy=False):
         return False
 
 if __name__=='__main__':
+    start = time.time()
+    for i in range(1,4):
+        print i
+        time.sleep(2)
+        writeList(returnFangList(i))
+
+
     failse = 0
     succ = 0
     for url in readList():
@@ -113,4 +120,5 @@ if __name__=='__main__':
         print "failse:", failse, "  succ:", succ
         time.sleep(60)
 
-
+        if time.time() - start > 3400:
+            break
