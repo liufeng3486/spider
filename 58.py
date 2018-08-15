@@ -4,6 +4,7 @@ import requests
 import requests
 import re
 import requests,sys,re,time
+import datetime
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
 
@@ -84,6 +85,7 @@ def get58message(url,poxy=False):
         'cache-control': "no-cache",
     }
     url = "http:" + url
+    print url
     a = ""
     if poxy:
         response = requests.request("GET", url, headers=headers)
@@ -97,7 +99,13 @@ def get58message(url,poxy=False):
             print "扫码看电话"
             return False
         with open("./data_58/58", "a+") as file:
-            file.write(name + "\t" + phone + "\t" + url + "\n")
+            file.write(name + "\t" + phone + "\t" + url +"\t" + datetime.datetime.now().strftime('%Y%m%d%H%M%S')+"\n")
+        with open("./data_58/58set", "r") as file:
+            if name in file:
+                print "重名"
+                return True
+        with open("./data_58/58set", "a+") as file:
+            file.write(name + "\t" + phone + "\t" + url +"\t" + datetime.datetime.now().strftime('%Y%m%d%H%M%S')+ "\n")
         return True
     except:
         return False
@@ -116,6 +124,8 @@ if __name__=='__main__':
         else:
             failse +=1
         if failse > 5:
-            break
+            failse = 0
+            print "init"
+            time.sleep(3600)
         print "failse:",failse,"  succ:",succ
         time.sleep(60)
