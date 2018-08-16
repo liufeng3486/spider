@@ -95,13 +95,13 @@ def getMessage(url,poxy=False):
                 with open(path+"set", "a+") as file:
                     file.write(name[index] + "\t" + phone[index] + "\t" + url + "\t" + statements[index] + "\t" + store[
                         index] + "\t" + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + "\n")
-            return True
+        return True
     except:
         return False
 
 if __name__=='__main__':
     start = time.time()
-    for i in range(1,4):
+    for i in range(1,14):
         print i
         time.sleep(2)
         writeList(returnFangList(i))

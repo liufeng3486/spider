@@ -7,14 +7,14 @@ import requests,sys,re,time
 import datetime
 reload(sys)
 sys.setdefaultencoding( "utf-8" )
-path = "./5i5j/"
+path = "./5i5jpeople/"
 #要有cookie
 
 def returnFangList(page_num):
     if page_num == 1:
-        url = "https://sh.5i5j.com/zufang/"
+        url = "https://sh.5i5j.com/jingjiren/n1/"
     else:
-        url = "https://sh.5i5j.com/zufang/n"+str(page_num)+"/"
+        url = "https://sh.5i5j.com/jingjiren/n"+str(page_num)+"/"
     print url
     url_list = []
     headers = {
@@ -30,6 +30,31 @@ def returnFangList(page_num):
 
     response =requests.request("GET", url, headers=headers)
     url_list += re.findall("/zufang/.*?html",response.text)
+    a = response.text
+    try:
+        name = re.findall("name\"><h3>(.*)</h3></span>", a)
+        jl = re.findall("iconsleft\">(.*)</p>", a)
+        phone = re.findall("contacty\">.*\n.*>(.*)</s", a)
+        iconsleft1 = re.findall("iconsleft1\">(.*)<", a)
+        for index, data in enumerate(name):
+
+            with open(path + "all", "a+") as file:
+                file.write(name[index] + "\t" + phone[index] + "\t" + url + "\t" + jl[index] + "\t" +iconsleft1[index*2+1]+"\t" + datetime.datetime.now().strftime('%Y%m%d%H%M%S') + "\n")
+            set = False
+            # with open(path + "set", "r") as file:
+            #     if name[index] in file.read():
+            #         print "重名"
+            #         set = True
+            #         # return True
+            if not set:
+                with open(path + "set", "a+") as file:
+                    file.write(name[index] + "\t" + phone[index] + "\t" + url + "\t" + jl[index] +"\t"  +iconsleft1[index*2+1]+"\t"+ datetime.datetime.now().strftime('%Y%m%d%H%M%S') + "\n")
+        with open(path + "all", "a+") as file:
+            file.write("index"+str(page_num)+ "\n")
+        return True
+    except:
+        return False
+
     # url_list += re.findall("/chuzu/.*?htm", response.text)
     url_list = list(set(url_list))
 
@@ -101,31 +126,32 @@ def getMessage(url,poxy=False):
 
 if __name__=='__main__':
     start = time.time()
-    for i in range(5,12):
+    for i in range(200,202):
         print i
-        time.sleep(2)
-        writeList(returnFangList(i))
 
+        returnFangList(i)
+        time.sleep(20)
 
-    failse = 0
-    succ = 0
-    for url in readList():
-        print url
-        if not setCheck(url):
-            print "pass"
-            continue
-        if getMessage(url):
-            succ += 1
-        else:
-            failse += 1
-        writeSet(url)
-        if failse > 5:
-            failse = 0
-            break
-        print "failse:", failse, "  succ:", succ
-        time.sleep(60)
-
-        if time.time()-start> 3400:
-            break
+    #
+    # failse = 0
+    # succ = 0
+    # for url in readList():
+    #     print url
+    #     if not setCheck(url):
+    #         print "pass"
+    #         continue
+    #     if getMessage(url):
+    #         succ += 1
+    #     else:
+    #         failse += 1
+    #     writeSet(url)
+    #     if failse > 5:
+    #         failse = 0
+    #         break
+    #     print "failse:", failse, "  succ:", succ
+    #     time.sleep(60)
+    #
+    #     if time.time()-start> 3400:
+    #         break
 
 
