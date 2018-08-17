@@ -12,9 +12,9 @@ path = "./5i5jpeople/"
 
 def returnFangList(page_num):
     if page_num == 1:
-        url = "https://sh.5i5j.com/jingjiren/n1/"
+        url = "https://sz.5i5j.com/jingjiren/n1/"
     else:
-        url = "https://sh.5i5j.com/jingjiren/n"+str(page_num)+"/"
+        url = "https://sz.5i5j.com/jingjiren/n"+str(page_num)+"/"
     print url
     url_list = []
     headers = {
@@ -126,7 +126,7 @@ def getMessage(url,poxy=False):
 
 if __name__=='__main__':
     start = time.time()
-    for i in range(200,202):
+    for i in range(1,106):
         print i
 
         returnFangList(i)
